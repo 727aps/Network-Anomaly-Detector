@@ -27,10 +27,6 @@ A real-time, ML-powered system for detecting anomalies in network traffic, featu
 2.  **Create a virtual environment (recommended):**
     ```bash
     python -m venv venv
-    # On Windows:
-    # .\venv\Scripts\activate
-    # On macOS/Linux:
-    # source venv/bin/activate
     ```
 
 3.  **Install dependencies:**
@@ -46,7 +42,6 @@ A real-time, ML-powered system for detecting anomalies in network traffic, featu
     Run the Jupyter notebook to train and save the `IsolationForest` and `LSTM` models along with their preprocessors. This will populate the `data/models/` directory.
     ```bash
     jupyter notebook notebooks/demo_anomaly_detection.ipynb
-    # Run all cells in the notebook.
     ```
 
 ## Usage
@@ -58,8 +53,6 @@ Run the `main.py` script for live sniffing or traffic generation.
 *   **Live Anomaly Detection:**
     ```bash
     python main.py --mode live --interface <your_network_interface> --model IsolationForest --threshold 0.7
-    # Example (Windows): python main.py --mode live --interface "Wi-Fi" --model LSTM
-    # Example (Linux): python main.py --mode live --interface "eth0" --model IsolationForest
     ```
     Use `--interface auto` to auto-detect the network interface.
 
