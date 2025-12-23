@@ -1,0 +1,27 @@
+network_interface: "auto"
+
+ml_models:
+  available: ["IsolationForest", "LSTM"]
+  active: "IsolationForest"
+  paths:
+    IsolationForest:
+      model: "data/models/IsolationForest.pkl"
+      scaler: "data/models/IsolationForest_scaler.pkl"
+      encoder: "data/models/IsolationForest_encoder.pkl"
+      label_encoder: "data/models/IsolationForest_label_encoder.pkl"
+    LSTM:
+      model: "data/models/lstm_model.h5"
+      scaler: "data/models/LSTM_scaler.pkl"
+      encoder: "data/models/LSTM_encoder.pkl"
+      label_encoder: "data/models/LSTM_label_encoder.pkl"
+
+anomaly_threshold: 0.7
+
+logging:
+  level: "INFO"
+  file: "system.log"
+
+realtime:
+  feature_batch_window: 5 # seconds to aggregate features before ML inference
+  anomaly_queue_maxsize: 100 # Max size of the anomaly queue
+

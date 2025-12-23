@@ -1,0 +1,78 @@
+/* web/style.css */
+
+/* Overall app styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #0d1117; /* Dark background */
+    color: #c9d1d9; /* Light text */
+}
+
+.stApp {
+    background-color: #0d1117;
+}
+
+/* Sidebar styling */
+.sidebar .sidebar-content {
+    background-color: #161b22; /* Slightly lighter dark for sidebar */
+    color: #c9d1d9;
+    padding: 20px;
+}
+
+.stButton>button {
+    background-color: #238636; /* Green for action buttons */
+    color: white;
+    border-radius: 5px;
+    border: none;
+    padding: 10px 15px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.stButton>button:hover {
+    background-color: #2ea043;
+}
+
+/* Info messages */
+.stAlert > div {
+    background-color: #1f6fb3; /* Blue for info */
+    color: white;
+}
+
+/* Warning messages */
+.stAlert.warning > div {
+    background-color: #a04100; /* Orange for warning */
+    color: white;
+}
+
+/* Dataframe styling */
+.stDataFrame {
+    font-family: 'Cascadia Code', monospace; /* Monospace for data */
+    font-size: 14px;
+}
+
+/* Headers */
+h1, h2, h3, h4, h5, h6 {
+    color: #58a6ff; /* Blue for headers */
+}
+
+/* Text areas for alerts */
+.stTextArea > label {
+    color: #c9d1d9;
+}
+
+.stTextArea > div > textarea {
+    background-color: #161b22;
+    color: #e6e6e6;
+    border: 1px solid #30363d;
+    border-radius: 5px;
+}
+
+/* Slider styling */
+.stSlider > div > div > div[data-baseweb="slider"] {
+    background-color: #30363d;
+}
+
+.stSlider > div > div > div[data-baseweb="slider"] > div {
+    background-color: #238636; /* Green slider fill */
+}
+

@@ -1,0 +1,18 @@
+What is Npcap?
+Npcap is a packet capture library and a driver for Windows. It is the modern, enhanced version of the older WinPcap library. Npcap allows software like Scapy to access raw network packets and sniff the network for analysis. It provides the underlying functionality that enables packet capture and network analysis.
+
+Scapy, which is used in your CLI tool, depends on Npcap (or WinPcap on older systems) to perform packet sniffing. Without a packet capture driver like Npcap, Scapy cannot intercept and analyze network packets.
+Accessing Raw Network Data:
+Scapy requires access to network interfaces at a low level (Data Link Layer and Network Layer) to capture network traffic. This requires Npcap, which facilitates low-level packet capture by interacting with the system’s network drivers.
+
+cap is a packet capture library and driver for Windows. It allows software like Scapy to capture network packets in real-time, enabling network analysis.
+
+Functionality in Building a CLI Tool:
+Packet Sniffing: Npcap captures network traffic (Ethernet, IP, etc.) from your network interfaces, which is essential for real-time packet analysis in your CLI tool.
+Layer 2 & 3 Access: It enables access to Layer 2 (Ethernet) and Layer 3 (IP) network data, which Scapy uses to capture packets at different network layers.
+Required by Scapy: Scapy uses Npcap (or WinPcap) to perform packet sniffing, filtering, and analysis, making it a critical component for building a packet analyzer tool.
+Why Npcap?:
+Modern and faster alternative to WinPcap.
+Supports IPv6, modern hardware, and higher performance.
+Enables non-admin mode for packet capture.
+In short, Npcap is essential for enabling real-time packet capture and network analysis in Scapy-based CLI tools.
