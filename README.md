@@ -6,23 +6,36 @@ A real-time, ML-powered system for detecting anomalies in network traffic, featu
 
 ```mermaid
 graph TD
-    User --> WebUI[Web UI (Streamlit)]
-    WebUI --> Config[Configuration]
-    Sniffer[Live Traffic Sniffer] --> PacketQueue[Packet Queue]
-    TrafficGen[Anomalous Traffic Generator] --> PacketQueue
+    subgraph User Interaction
+        User --> WebUI(Streamlit UI)
+        WebUI --> Config(Configuration)
+    end
 
-    PacketQueue --> FeatureExtractor[Feature Extractor]
-    FeatureExtractor --> FlowAggregator[Flow Aggregator]
-    FlowAggregator --> FeatureQueue[Feature Queue]
+    subgraph Data Ingestion
+        Sniffer(Live Sniffer) --> RawPacketQueue[Raw Packet Queue]
+        TrafficGen(Traffic Generator) --> RawPacketQueue
+    end
 
-    FeatureQueue --> MLModels[ML Models (LSTM, Isolation Forest, Rules)]
-    MLModels --> AnomalyDetector[Anomaly Detector]
+    subgraph Processing Pipeline
+        RawPacketQueue --> FeatureExtractor(Feature Extraction)
+        FeatureExtractor --> FlowAggregator(Flow Aggregation)
+        FlowAggregator --> FeatureQueue[Feature Vector Queue]
+    end
 
-    AnomalyDetector --> WebUI
-    AnomalyDetector --> Logger[Logger/Alerter]
-    Logger --> Outputs[Outputs (CSV, Plots, Console)]
+    subgraph Anomaly Detection
+        FeatureQueue --> MLModels(ML Models)
+        MLModels --> AnomalyDetector(Anomaly Detector)
+    end
 
-    OfflineTrain[Offline Training Notebook] --> MLModels
+    subgraph Outputs
+        AnomalyDetector --> WebUI
+        AnomalyDetector --> Alerts(Real-time Alerts)
+        AnomalyDetector --> Logs(Detailed Logs)
+        WebUI --> CSV[CSV Export]
+        WebUI --> Plots[Visualizations]
+    end
+
+    OfflineTraining(Offline Training Notebook) --> MLModels
 ```
 
 ## Features
@@ -109,10 +122,6 @@ Open and run the Jupyter notebook for offline model development and analysis.
 ```bash
 jupyter notebook notebooks/demo_anomaly_detection.ipynb
 ```
-
-## Screenshots
-
-*(Screenshots of the Streamlit dashboard and notebook outputs will be added here.)*
 
 ## Outputs
 
