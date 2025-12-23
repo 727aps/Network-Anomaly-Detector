@@ -3,7 +3,6 @@ from scapy.all import Ether, IP, TCP, UDP, Raw
 import time
 from src.features import extract_features, FLOW_TABLE, LAST_N_CONNECTIONS, FLOW_TIMEOUT
 
-# Reset global state before each test
 @pytest.fixture(autouse=True)
 def clear_flow_table():
     FLOW_TABLE.clear()
@@ -22,7 +21,7 @@ def test_extract_features_tcp_syn():
     assert features['state'] == "SYN"
     assert features['spkts'] == 1
     assert features['dpkts'] == 0
-    assert features['synack'] == 0.0 # Initial SYN, so RTT not measured yet
+    assert features['synack'] == 0.0
 
 def test_extract_features_tcp_synack_fin():
     # Simulate SYN
@@ -41,8 +40,8 @@ def test_extract_features_tcp_synack_fin():
 
     assert features_synack['state'] == "SYNACK"
     assert features_fin['state'] == "FIN"
-    assert features_fin['synack'] > 0 # RTT should be calculated
-    assert features_fin['ackdat'] > 0 # RTT should be calculated
+    assert features_fin['synack'] > 0
+    assert features_fin['ackdat'] > 0
 
 def test_extract_features_udp():
     packet = Ether()/IP(src="1.1.1.1", dst="8.8.8.8", proto=17, ttl=64)/UDP(sport=50000, dport=53)/Raw(load="dns query")
@@ -68,8 +67,8 @@ def test_flow_timeout():
 
     assert len(FLOW_TABLE) == 1
     new_flow_key = list(FLOW_TABLE.keys())[0]
-    assert flow_key == new_flow_key # Should be the same flow key, but represents a new flow instance after timeout
-    assert FLOW_TABLE[new_flow_key]['total_packets'] == 1 # Should be 1 as it's a new flow context
+    assert flow_key == new_flow_key
+    assert FLOW_TABLE[new_flow_key]['total_packets'] == 1
 
 def test_derived_features():
     packet = Ether()/IP(src="192.168.0.1", dst="192.168.0.2", proto=6, ttl=64)/TCP(sport=1000, dport=80, flags="S")

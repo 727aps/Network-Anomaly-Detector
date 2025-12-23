@@ -1,8 +1,12 @@
+"""
+This script implements a simple socket server that sends a dummy network packet
+data in JSON format to a connected client. This is used for testing the client-side
+anomaly detection.
+"""
 import socket
 import json
 import pandas as pd
 
-# Define the dummy packet
 dummy_packet = pd.DataFrame([{
     "FLOW_ID": 368604472,
     "PROTOCOL_MAP": "tcp",
@@ -36,22 +40,18 @@ dummy_packet = pd.DataFrame([{
     "ANALYSIS_TIMESTAMP": 1647687338
 }])
 
-# Convert to JSON
 packet_json = dummy_packet.to_json(orient="records")
 
-# Create a socket server
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind(("0.0.0.0", 12345))  # Listen on all network interfaces, port 12345
+server.bind(("0.0.0.0", 12345))
 server.listen(1)
 
 print("Server is waiting for a connection...")
 conn, addr = server.accept()
 print(f"Connected to {addr}")
 
-# Send the packet
 conn.sendall(packet_json.encode())
 print("Packet sent.")
 
-# Close the connection
 conn.close()
 server.close()

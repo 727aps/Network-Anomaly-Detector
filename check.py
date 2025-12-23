@@ -1,10 +1,11 @@
 import pandas as pd
 
-# Load predictions
+"""
+This script loads the anomaly detection predictions from 'test_predictions.csv',
+prints the count of unique anomaly types, and displays the first 10 rows
+where anomalies were detected.
+"""
+
 df = pd.read_csv("test_predictions.csv")
-
-# Check unique anomaly types
 print(df["Predicted_ALERT"].value_counts())
-
-# Display first 10 rows where anomalies are detected
 print(df[df["Predicted_ALERT"] != "Unknown"].head(10))

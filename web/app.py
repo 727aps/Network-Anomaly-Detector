@@ -78,9 +78,8 @@ col1, col2 = st.sidebar.columns(2)
 with col1:
     if st.button("▶️ Start Sniffing", disabled=st.session_state.sniffing_active or not selected_interface):
         st.session_state.sniffing_active = True
-        st.session_state.stop_event_mp.clear() # Clear the stop event for a new run
+        st.session_state.stop_event_mp.clear()
         
-        # Start the backend process
         st.session_state.backend_process = multiprocessing.Process(
             target=run_backend,
             args=(
@@ -101,8 +100,8 @@ with col2:
     if st.button("⏹️ Stop Sniffing", disabled=not st.session_state.sniffing_active):
         st.session_state.sniffing_active = False
         if st.session_state.backend_process:
-            st.session_state.stop_event_mp.set() # Signal backend to stop
-            st.session_state.backend_process.join() # Wait for backend to finish
+            st.session_state.stop_event_mp.set()
+            st.session_state.backend_process.join()
             st.session_state.backend_process = None
         st.info("Stopping sniffing...")
 
@@ -113,7 +112,7 @@ target_ip_test = st.sidebar.text_input("Target IP (for tests)", value=LOCAL_IP)
 
 if st.sidebar.button("💥 Generate SYN Flood"):
     log_alert("Simulating SYN Flood (check console for output)", level='WARNING')
-    generate_syn_flood(target_ip=target_ip_test, count=10, delay=0.05) # Limited count for UI demo
+    generate_syn_flood(target_ip=target_ip_test, count=10, delay=0.05)
 
 if st.sidebar.button("🔍 Generate Port Scan"):
     log_alert("Simulating Port Scan (check console for output)", level='WARNING')
@@ -141,16 +140,16 @@ while st.session_state.sniffing_active or not st.session_state.anomaly_q_mp.empt
             
             new_df = pd.DataFrame([anomaly_event])
             st.session_state.anomaly_data = pd.concat([st.session_state.anomaly_data, new_df], ignore_index=True)
-            st.session_state.anomaly_data = st.session_state.anomaly_data.tail(100) # Keep last 100 entries
+            st.session_state.anomaly_data = st.session_state.anomaly_data.tail(100)
 
             alert_message = f"[{time.strftime('%H:%M:%S')}] ALERT: {anomaly_event['anomaly_label']} from {anomaly_event['src_ip']} (Score: {anomaly_event['anomaly_score']:.2f})"
             st.session_state.alert_feed.append(alert_message)
-            if len(st.session_state.alert_feed) > 10: # Keep last 10 alerts
+            if len(st.session_state.alert_feed) > 10:
                 st.session_state.alert_feed.pop(0)
             
             current_volume_data = {'time': anomaly_event['timestamp'], 'volume': anomaly_event['packet_size'], 'anomaly': anomaly_event['anomaly_label'] != 'Normal'}
             st.session_state.traffic_volume = pd.concat([st.session_state.traffic_volume, pd.DataFrame([current_volume_data])], ignore_index=True)
-            st.session_state.traffic_volume = st.session_state.traffic_volume[st.session_state.traffic_volume['time'] > (time.time() - 60)] # Last 60 seconds
+            st.session_state.traffic_volume = st.session_state.traffic_volume[st.session_state.traffic_volume['time'] > (time.time() - 60)]
 
         except Exception as e:
             log_alert(f"Error reading from anomaly queue: {e}", level='ERROR')

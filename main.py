@@ -23,11 +23,11 @@ async def feature_extraction_worker(packet_queue: multiprocessing.Queue, feature
     """
     while not stop_event.is_set():
         try:
-            packet = packet_queue.get(timeout=0.1) 
+            packet = packet_queue.get(timeout=0.1)
             features = extract_features(packet)
             await _async_queue_put(feature_queue, features)
         except multiprocessing.queues.Empty:
-            await asyncio.sleep(0.01) # Small sleep to prevent busy-waiting
+            await asyncio.sleep(0.01)
         except Exception as e:
             log_alert(f"Error in feature extraction worker: {e}", level='ERROR')
 
@@ -60,7 +60,7 @@ async def anomaly_detection_worker(feature_queue: multiprocessing.Queue, anomaly
                 batch_start_time = time.time()
 
         except multiprocessing.queues.Empty:
-            await asyncio.sleep(0.01) # Small sleep to prevent busy-waiting
+            await asyncio.sleep(0.01)
         except Exception as e:
             log_alert(f"Error in anomaly detection worker: {e}", level='ERROR')
 
@@ -196,4 +196,4 @@ async def main_cli():
 
 if __name__ == "__main__":
     multiprocessing.freeze_support()
-    asyncio.run(main_cli())
+    asyncio.run(main_cli()))

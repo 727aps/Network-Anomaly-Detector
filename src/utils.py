@@ -46,16 +46,3 @@ def log_alert(alert_message, level='ERROR'):
     else:
         logging.debug(f"[ALERT] {alert_message}")
 
-if __name__ == "__main__":
-    console.print("[bold green]Available Network Interfaces:[/bold green]")
-    interfaces = get_network_interfaces()
-    if interfaces:
-        for iface in interfaces:
-            console.print(f"- {iface}")
-    else:
-        console.print("[bold yellow]No active network interfaces found.[/bold yellow]")
-
-    setup_logging(log_file='system.log')
-    logging.info("System started.")
-    log_alert("Potential port scan detected from 192.168.1.1", level='WARNING')
-

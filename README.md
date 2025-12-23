@@ -2,42 +2,6 @@
 
 A real-time, ML-powered system for detecting anomalies in network traffic, featuring live packet sniffing, comprehensive feature extraction, multi-model anomaly detection, and a professional web-based dashboard.
 
-## Architecture
-
-```mermaid
-graph TD
-    subgraph User Interaction
-        User --> WebUI(Streamlit UI)
-        WebUI --> Config(Configuration)
-    end
-
-    subgraph Data Ingestion
-        Sniffer(Live Sniffer) --> RawPacketQueue[Raw Packet Queue]
-        TrafficGen(Traffic Generator) --> RawPacketQueue
-    end
-
-    subgraph Processing Pipeline
-        RawPacketQueue --> FeatureExtractor(Feature Extraction)
-        FeatureExtractor --> FlowAggregator(Flow Aggregation)
-        FlowAggregator --> FeatureQueue[Feature Vector Queue]
-    end
-
-    subgraph Anomaly Detection
-        FeatureQueue --> MLModels(ML Models)
-        MLModels --> AnomalyDetector(Anomaly Detector)
-    end
-
-    subgraph Outputs
-        AnomalyDetector --> WebUI
-        AnomalyDetector --> Alerts(Real-time Alerts)
-        AnomalyDetector --> Logs(Detailed Logs)
-        WebUI --> CSV[CSV Export]
-        WebUI --> Plots[Visualizations]
-    end
-
-    OfflineTraining(Offline Training Notebook) --> MLModels
-```
-
 ## Features
 
 1.  **Live Traffic Sniffing:** Captures network packets from selected network interfaces (e.g., Wi-Fi, Ethernet) using `scapy` and `psutil`.

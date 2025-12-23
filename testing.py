@@ -1,6 +1,12 @@
 import pandas as pd
 import joblib
 
+"""
+This script loads pre-trained machine learning models (Random Forest, encoder, scaler, label encoder)
+and uses them to predict anomalies on a dummy network packet. The script simulates
+the preprocessing steps and inference phase of an anomaly detection system.
+"""
+
 rf_model = joblib.load("rf_model.pkl")
 encoder = joblib.load("encoder.pkl")
 scaler = joblib.load("scaler.pkl")
@@ -39,12 +45,10 @@ dummy_packet = pd.DataFrame([{
     "ANALYSIS_TIMESTAMP": 1647687338
 }])
 
-# Ensure all required columns exist
 for col in scaler.feature_names_in_:
     if col not in dummy_packet.columns:
-        dummy_packet[col] = 0  # Default value for missing columns
+        dummy_packet[col] = 0
 
-# Encode categorical features
 categorical_cols = list(encoder.feature_names_in_)
 for col in categorical_cols:
     dummy_packet[col] = dummy_packet[col].astype(str)
@@ -52,10 +56,8 @@ for col in categorical_cols:
 
 dummy_packet[categorical_cols] = encoder.transform(dummy_packet[categorical_cols])
 
-# Scale numerical features
 dummy_packet_scaled = scaler.transform(dummy_packet)
 
-# Predict anomaly
 prediction = rf_model.predict(dummy_packet_scaled)
 alert = label_encoder.inverse_transform(prediction)[0]
 
